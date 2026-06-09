@@ -11,6 +11,7 @@ Makefile
 *.o
 *.out
 *.pdb
+!data/**/*.obj
 
 # Directorios de salida
 output/
