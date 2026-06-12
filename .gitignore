@@ -16,6 +16,9 @@ Makefile
 # Directorios de salida
 output/
 !output/.gitkeep
+!data/output/
+!data/output/.gitkeep
+!data/output/*.vtu
 
 # IDEs
 .vscode/
