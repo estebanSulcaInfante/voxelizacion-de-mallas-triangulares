@@ -25,7 +25,7 @@ cmake --build build
 
 ## Ejecución y Pruebas (Benchmark)
 
-Los ejecutables se generan en la carpeta `build`. Para ejecutar el programa necesitas especificar la malla de entrada y la resolución deseada (`d`). La resolución debe ser una potencia de 2 y múltiplo de 8 (e.g., `32`, `64`, `128`, `256`, `512`).
+Los ejecutables se generan en la carpeta `build`. Para ejecutar el programa necesitas especificar la malla de entrada y la resolución deseada (`d`). La resolución debe ser una potencia de 2 y múltiplo de 8 (e.g., `32`, `64`, `128`, `256`, `512`, `1024`).
 
 ### Formato de Entrada
 
@@ -64,9 +64,14 @@ La siguiente tabla muestra la cantidad de triángulos efectivos procesados por e
 ### Formato de Salida
 
 - La salida principal del proyecto es el formato `VTU` (`vtkUnstructuredGrid`).
-- Los archivos generados se guardan dentro de `data/output`.
+- Los archivos `VTU` generados se guardan dentro de `data/output/vtu`.
 - Opción disponible:
   - `--export-octree-vtu <archivo.vtu>`: Exporta el volumen voxelizado como bloques adaptativos organizados por un octree disperso.
+
+### Organización de `data/output`
+
+- `data/output/vtu`: resultados volumétricos exportados por el voxelizador.
+- `data/output/benchmarks`: archivos `CSV` y gráficas generadas por el benchmark.
 
 ### Visualización de Resultados
 
@@ -96,3 +101,30 @@ Sitio oficial de ParaView:
 ## Salida de Consola
 
 El programa imprimirá un desglose de los tiempos tomados por cada uno de los 4 algoritmos, el tiempo total secuencial ($T_s$), y la cantidad de vóxeles sólidos generados. Esta información es ideal para reportar y graficar tus benchmarks.
+
+## Benchmark
+
+El ejecutable `benchmark_runner` evalúa una única malla con varias resoluciones y cantidades de hilos:
+
+- Resoluciones: `64`, `128`, `256`, `512`, `1024`
+- Hilos: `1`, `2`, `4`, `8`, `16`
+- Para `1` hilo se ejecuta la versión secuencial.
+- Para más de `1` hilo se ejecuta la versión OpenMP.
+
+El archivo CSV del benchmark se guarda en `data/output/benchmarks`.
+
+Ejemplo:
+
+```bash
+./build/benchmark_runner --model data/input/happy.obj --output benchmark_happy.csv
+```
+
+La gráfica de tiempos totales puede generarse con:
+
+```bash
+./build/plot_benchmark_totals \
+  data/output/benchmarks/benchmark_happy.csv \
+  data/output/benchmarks/benchmark_happy_totals.svg
+```
+
+La gráfica se exporta como `SVG` y usa escala logarítmica en el eje de tiempos para comparar mejor las resoluciones altas.

@@ -18,7 +18,10 @@ output/
 !output/.gitkeep
 !data/output/
 !data/output/.gitkeep
-!data/output/*.vtu
+data/output/*
+!data/output/vtu/
+!data/output/benchmarks/
+!data/output/vtu/*.vtu
 
 # IDEs
 .vscode/
