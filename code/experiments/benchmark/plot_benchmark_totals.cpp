@@ -277,6 +277,44 @@ void writeSVG(const std::vector<PlotRow>& rows, const fs::path& outputPath) {
     out << "</svg>\n";
 }
 
+void printMetrics(const std::vector<PlotRow>& rows) {
+    std::map<int, std::map<int, double>> grouped;
+    for (const PlotRow& row : rows) {
+        grouped[row.resolution][row.threads] = row.totalMs;
+    }
+
+    std::cout << "\n=== Speedup y Escalabilidad ===\n";
+    for (const auto& [resolution, threadData] : grouped) {
+        std::cout << "Resolucion: " << resolution << "\n";
+        std::cout << std::left << std::setw(10) << "Threads"
+                  << std::setw(15) << "Tiempo(ms)"
+                  << std::setw(15) << "Speedup"
+                  << std::setw(15) << "Eficiencia(%)" << "\n";
+        
+        double t1 = 0.0;
+        if (threadData.count(1)) {
+            t1 = threadData.at(1);
+        }
+
+        for (const auto& [threads, totalMs] : threadData) {
+            double speedup = (t1 > 0) ? (t1 / totalMs) : 0.0;
+            double efficiency = (threads > 0 && speedup > 0) ? (speedup / threads) * 100.0 : 0.0;
+
+            std::cout << std::left << std::setw(10) << threads
+                      << std::setw(15) << std::fixed << std::setprecision(2) << totalMs;
+            
+            if (t1 > 0) {
+                 std::cout << std::setw(15) << std::fixed << std::setprecision(2) << speedup
+                           << std::setw(15) << std::fixed << std::setprecision(2) << efficiency;
+            } else {
+                 std::cout << std::setw(15) << "N/A" << std::setw(15) << "N/A";
+            }
+            std::cout << "\n";
+        }
+        std::cout << "\n";
+    }
+}
+
 void printUsage(const char* programName) {
     std::cout << "Uso: " << programName << " <input.csv> <output.svg>\n";
 }
@@ -296,6 +334,8 @@ int main(int argc, char* argv[]) {
         std::vector<PlotRow> rows = loadRows(inputPath);
         fs::create_directories(outputPath.parent_path());
         writeSVG(rows, outputPath);
+        
+        printMetrics(rows);
 
         std::cout << "Grafico generado en: " << outputPath << std::endl;
         return 0;
