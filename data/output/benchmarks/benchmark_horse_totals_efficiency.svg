@@ -64,36 +64,36 @@ text { font-family: Arial, sans-serif; fill: #111827; }
 <text x="600" y="870" text-anchor="middle" font-size="24">Numero de threads</text>
 <text x="40" y="445" text-anchor="middle" font-size="24" transform="rotate(-90 40 445)">Eficiencia (%)</text>
 <line class="ideal" x1="120" y1="100" x2="1080" y2="100"/>
-<polyline class="series" stroke="#1f77b4" points="120.00,100.00 360.00,249.69 600.00,383.94 840.00,542.14 1080.00,685.34 "/>
+<polyline class="series" stroke="#1f77b4" points="120.00,100.00 360.00,448.33 600.00,507.08 840.00,613.84 1080.00,687.69 "/>
 <circle class="point" cx="120.00" cy="100.00" r="6" fill="#1f77b4"/>
-<circle class="point" cx="360.00" cy="249.69" r="6" fill="#1f77b4"/>
-<circle class="point" cx="600.00" cy="383.94" r="6" fill="#1f77b4"/>
-<circle class="point" cx="840.00" cy="542.14" r="6" fill="#1f77b4"/>
-<circle class="point" cx="1080.00" cy="685.34" r="6" fill="#1f77b4"/>
-<polyline class="series" stroke="#ff7f0e" points="120.00,100.00 360.00,366.38 600.00,536.62 840.00,654.83 1080.00,726.86 "/>
+<circle class="point" cx="360.00" cy="448.33" r="6" fill="#1f77b4"/>
+<circle class="point" cx="600.00" cy="507.08" r="6" fill="#1f77b4"/>
+<circle class="point" cx="840.00" cy="613.84" r="6" fill="#1f77b4"/>
+<circle class="point" cx="1080.00" cy="687.69" r="6" fill="#1f77b4"/>
+<polyline class="series" stroke="#ff7f0e" points="120.00,100.00 360.00,615.24 600.00,640.71 840.00,703.14 1080.00,726.81 "/>
 <circle class="point" cx="120.00" cy="100.00" r="6" fill="#ff7f0e"/>
-<circle class="point" cx="360.00" cy="366.38" r="6" fill="#ff7f0e"/>
-<circle class="point" cx="600.00" cy="536.62" r="6" fill="#ff7f0e"/>
-<circle class="point" cx="840.00" cy="654.83" r="6" fill="#ff7f0e"/>
-<circle class="point" cx="1080.00" cy="726.86" r="6" fill="#ff7f0e"/>
-<polyline class="series" stroke="#2ca02c" points="120.00,100.00 360.00,429.21 600.00,603.13 840.00,696.32 1080.00,743.34 "/>
+<circle class="point" cx="360.00" cy="615.24" r="6" fill="#ff7f0e"/>
+<circle class="point" cx="600.00" cy="640.71" r="6" fill="#ff7f0e"/>
+<circle class="point" cx="840.00" cy="703.14" r="6" fill="#ff7f0e"/>
+<circle class="point" cx="1080.00" cy="726.81" r="6" fill="#ff7f0e"/>
+<polyline class="series" stroke="#2ca02c" points="120.00,100.00 360.00,612.49 600.00,670.29 840.00,694.57 1080.00,720.02 "/>
 <circle class="point" cx="120.00" cy="100.00" r="6" fill="#2ca02c"/>
-<circle class="point" cx="360.00" cy="429.21" r="6" fill="#2ca02c"/>
-<circle class="point" cx="600.00" cy="603.13" r="6" fill="#2ca02c"/>
-<circle class="point" cx="840.00" cy="696.32" r="6" fill="#2ca02c"/>
-<circle class="point" cx="1080.00" cy="743.34" r="6" fill="#2ca02c"/>
-<polyline class="series" stroke="#d62728" points="120.00,100.00 360.00,438.99 600.00,612.75 840.00,701.35 1080.00,745.57 "/>
+<circle class="point" cx="360.00" cy="612.49" r="6" fill="#2ca02c"/>
+<circle class="point" cx="600.00" cy="670.29" r="6" fill="#2ca02c"/>
+<circle class="point" cx="840.00" cy="694.57" r="6" fill="#2ca02c"/>
+<circle class="point" cx="1080.00" cy="720.02" r="6" fill="#2ca02c"/>
+<polyline class="series" stroke="#d62728" points="120.00,100.00 360.00,569.29 600.00,617.18 840.00,635.15 1080.00,681.40 "/>
 <circle class="point" cx="120.00" cy="100.00" r="6" fill="#d62728"/>
-<circle class="point" cx="360.00" cy="438.99" r="6" fill="#d62728"/>
-<circle class="point" cx="600.00" cy="612.75" r="6" fill="#d62728"/>
-<circle class="point" cx="840.00" cy="701.35" r="6" fill="#d62728"/>
-<circle class="point" cx="1080.00" cy="745.57" r="6" fill="#d62728"/>
-<polyline class="series" stroke="#9467bd" points="120.00,100.00 360.00,438.84 600.00,613.59 840.00,701.81 1080.00,746.23 "/>
+<circle class="point" cx="360.00" cy="569.29" r="6" fill="#d62728"/>
+<circle class="point" cx="600.00" cy="617.18" r="6" fill="#d62728"/>
+<circle class="point" cx="840.00" cy="635.15" r="6" fill="#d62728"/>
+<circle class="point" cx="1080.00" cy="681.40" r="6" fill="#d62728"/>
+<polyline class="series" stroke="#9467bd" points="120.00,100.00 360.00,582.54 600.00,619.01 840.00,643.07 1080.00,685.73 "/>
 <circle class="point" cx="120.00" cy="100.00" r="6" fill="#9467bd"/>
-<circle class="point" cx="360.00" cy="438.84" r="6" fill="#9467bd"/>
-<circle class="point" cx="600.00" cy="613.59" r="6" fill="#9467bd"/>
-<circle class="point" cx="840.00" cy="701.81" r="6" fill="#9467bd"/>
-<circle class="point" cx="1080.00" cy="746.23" r="6" fill="#9467bd"/>
+<circle class="point" cx="360.00" cy="582.54" r="6" fill="#9467bd"/>
+<circle class="point" cx="600.00" cy="619.01" r="6" fill="#9467bd"/>
+<circle class="point" cx="840.00" cy="643.07" r="6" fill="#9467bd"/>
+<circle class="point" cx="1080.00" cy="685.73" r="6" fill="#9467bd"/>
 <rect x="1100" y="90" width="240" height="210" rx="12" fill="white" stroke="#d1d5db"/>
 <line x1="1120" y1="120" x2="1158" y2="120" stroke="#1f77b4" stroke-width="4"/>
 <circle cx="1139" cy="120" r="5" fill="#1f77b4" stroke="white" stroke-width="1.5"/>

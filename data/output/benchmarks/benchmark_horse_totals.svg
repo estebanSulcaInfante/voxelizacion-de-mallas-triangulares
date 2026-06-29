@@ -13,18 +13,21 @@ text { font-family: Arial, sans-serif; fill: #111827; }
 <line class="grid" x1="120" y1="790" x2="1080" y2="790"/>
 <line class="tick" x1="112" y1="790" x2="120" y2="790"/>
 <text x="102" y="796" text-anchor="end" font-size="20">10^1</text>
-<line class="grid" x1="120" y1="617.5" x2="1080" y2="617.5"/>
-<line class="tick" x1="112" y1="617.5" x2="120" y2="617.5"/>
-<text x="102" y="623.5" text-anchor="end" font-size="20">10^2</text>
-<line class="grid" x1="120" y1="445" x2="1080" y2="445"/>
-<line class="tick" x1="112" y1="445" x2="120" y2="445"/>
-<text x="102" y="451" text-anchor="end" font-size="20">10^3</text>
-<line class="grid" x1="120" y1="272.5" x2="1080" y2="272.5"/>
-<line class="tick" x1="112" y1="272.5" x2="120" y2="272.5"/>
-<text x="102" y="278.5" text-anchor="end" font-size="20">10^4</text>
+<line class="grid" x1="120" y1="652" x2="1080" y2="652"/>
+<line class="tick" x1="112" y1="652" x2="120" y2="652"/>
+<text x="102" y="658" text-anchor="end" font-size="20">10^2</text>
+<line class="grid" x1="120" y1="514" x2="1080" y2="514"/>
+<line class="tick" x1="112" y1="514" x2="120" y2="514"/>
+<text x="102" y="520" text-anchor="end" font-size="20">10^3</text>
+<line class="grid" x1="120" y1="376" x2="1080" y2="376"/>
+<line class="tick" x1="112" y1="376" x2="120" y2="376"/>
+<text x="102" y="382" text-anchor="end" font-size="20">10^4</text>
+<line class="grid" x1="120" y1="238" x2="1080" y2="238"/>
+<line class="tick" x1="112" y1="238" x2="120" y2="238"/>
+<text x="102" y="244" text-anchor="end" font-size="20">10^5</text>
 <line class="grid" x1="120" y1="100" x2="1080" y2="100"/>
 <line class="tick" x1="112" y1="100" x2="120" y2="100"/>
-<text x="102" y="106" text-anchor="end" font-size="20">10^5</text>
+<text x="102" y="106" text-anchor="end" font-size="20">10^6</text>
 <line class="grid" x1="120" y1="100" x2="120" y2="790"/>
 <line class="tick" x1="120" y1="790" x2="120" y2="798"/>
 <text x="120" y="826" text-anchor="middle" font-size="20">1</text>
@@ -44,36 +47,36 @@ text { font-family: Arial, sans-serif; fill: #111827; }
 <line class="axis" x1="120" y1="790" x2="1080" y2="790"/>
 <text x="600" y="870" text-anchor="middle" font-size="24">Numero de threads</text>
 <text x="40" y="445" text-anchor="middle" font-size="24" transform="rotate(-90 40 445)">Tiempo total (ms)</text>
-<polyline class="series" stroke="#1f77b4" points="120.00,689.68 360.00,723.29 600.00,753.82 840.00,768.77 1080.00,756.10 "/>
-<circle class="point" cx="120.00" cy="689.68" r="6" fill="#1f77b4"/>
-<circle class="point" cx="360.00" cy="723.29" r="6" fill="#1f77b4"/>
-<circle class="point" cx="600.00" cy="753.82" r="6" fill="#1f77b4"/>
-<circle class="point" cx="840.00" cy="768.77" r="6" fill="#1f77b4"/>
-<circle class="point" cx="1080.00" cy="756.10" r="6" fill="#1f77b4"/>
-<polyline class="series" stroke="#ff7f0e" points="120.00,614.81 360.00,630.19 600.00,643.61 840.00,648.47 1080.00,643.37 "/>
-<circle class="point" cx="120.00" cy="614.81" r="6" fill="#ff7f0e"/>
-<circle class="point" cx="360.00" cy="630.19" r="6" fill="#ff7f0e"/>
-<circle class="point" cx="600.00" cy="643.61" r="6" fill="#ff7f0e"/>
-<circle class="point" cx="840.00" cy="648.47" r="6" fill="#ff7f0e"/>
-<circle class="point" cx="1080.00" cy="643.37" r="6" fill="#ff7f0e"/>
-<polyline class="series" stroke="#2ca02c" points="120.00,460.63 360.00,463.98 600.00,466.63 840.00,466.83 1080.00,466.54 "/>
-<circle class="point" cx="120.00" cy="460.63" r="6" fill="#2ca02c"/>
-<circle class="point" cx="360.00" cy="463.98" r="6" fill="#2ca02c"/>
-<circle class="point" cx="600.00" cy="466.63" r="6" fill="#2ca02c"/>
-<circle class="point" cx="840.00" cy="466.83" r="6" fill="#2ca02c"/>
-<circle class="point" cx="1080.00" cy="466.54" r="6" fill="#2ca02c"/>
-<polyline class="series" stroke="#d62728" points="120.00,268.27 360.00,269.57 600.00,270.31 840.00,270.33 1080.00,270.50 "/>
-<circle class="point" cx="120.00" cy="268.27" r="6" fill="#d62728"/>
-<circle class="point" cx="360.00" cy="269.57" r="6" fill="#d62728"/>
-<circle class="point" cx="600.00" cy="270.31" r="6" fill="#d62728"/>
-<circle class="point" cx="840.00" cy="270.33" r="6" fill="#d62728"/>
-<circle class="point" cx="1080.00" cy="270.50" r="6" fill="#d62728"/>
-<polyline class="series" stroke="#9467bd" points="120.00,109.03 360.00,110.36 600.00,110.72 840.00,110.70 1080.00,110.14 "/>
-<circle class="point" cx="120.00" cy="109.03" r="6" fill="#9467bd"/>
-<circle class="point" cx="360.00" cy="110.36" r="6" fill="#9467bd"/>
-<circle class="point" cx="600.00" cy="110.72" r="6" fill="#9467bd"/>
-<circle class="point" cx="840.00" cy="110.70" r="6" fill="#9467bd"/>
-<circle class="point" cx="1080.00" cy="110.14" r="6" fill="#9467bd"/>
+<polyline class="series" stroke="#1f77b4" points="120.00,714.98 360.00,714.40 600.00,744.63 840.00,757.78 1080.00,766.75 "/>
+<circle class="point" cx="120.00" cy="714.98" r="6" fill="#1f77b4"/>
+<circle class="point" cx="360.00" cy="714.40" r="6" fill="#1f77b4"/>
+<circle class="point" cx="600.00" cy="744.63" r="6" fill="#1f77b4"/>
+<circle class="point" cx="840.00" cy="757.78" r="6" fill="#1f77b4"/>
+<circle class="point" cx="1080.00" cy="766.75" r="6" fill="#1f77b4"/>
+<polyline class="series" stroke="#ff7f0e" points="120.00,654.02 360.00,613.26 600.00,645.36 840.00,654.45 1080.00,676.92 "/>
+<circle class="point" cx="120.00" cy="654.02" r="6" fill="#ff7f0e"/>
+<circle class="point" cx="360.00" cy="613.26" r="6" fill="#ff7f0e"/>
+<circle class="point" cx="600.00" cy="645.36" r="6" fill="#ff7f0e"/>
+<circle class="point" cx="840.00" cy="654.45" r="6" fill="#ff7f0e"/>
+<circle class="point" cx="1080.00" cy="676.92" r="6" fill="#ff7f0e"/>
+<polyline class="series" stroke="#2ca02c" points="120.00,529.10 360.00,489.28 600.00,507.21 840.00,535.16 1080.00,558.12 "/>
+<circle class="point" cx="120.00" cy="529.10" r="6" fill="#2ca02c"/>
+<circle class="point" cx="360.00" cy="489.28" r="6" fill="#2ca02c"/>
+<circle class="point" cx="600.00" cy="507.21" r="6" fill="#2ca02c"/>
+<circle class="point" cx="840.00" cy="535.16" r="6" fill="#2ca02c"/>
+<circle class="point" cx="1080.00" cy="558.12" r="6" fill="#2ca02c"/>
+<polyline class="series" stroke="#d62728" points="120.00,373.88 360.00,347.11 600.00,373.99 840.00,408.95 1080.00,429.24 "/>
+<circle class="point" cx="120.00" cy="373.88" r="6" fill="#d62728"/>
+<circle class="point" cx="360.00" cy="347.11" r="6" fill="#d62728"/>
+<circle class="point" cx="600.00" cy="373.99" r="6" fill="#d62728"/>
+<circle class="point" cx="840.00" cy="408.95" r="6" fill="#d62728"/>
+<circle class="point" cx="1080.00" cy="429.24" r="6" fill="#d62728"/>
+<polyline class="series" stroke="#9467bd" points="120.00,245.49 360.00,215.01 600.00,244.97 840.00,277.42 1080.00,298.41 "/>
+<circle class="point" cx="120.00" cy="245.49" r="6" fill="#9467bd"/>
+<circle class="point" cx="360.00" cy="215.01" r="6" fill="#9467bd"/>
+<circle class="point" cx="600.00" cy="244.97" r="6" fill="#9467bd"/>
+<circle class="point" cx="840.00" cy="277.42" r="6" fill="#9467bd"/>
+<circle class="point" cx="1080.00" cy="298.41" r="6" fill="#9467bd"/>
 <rect x="1100" y="90" width="240" height="210" rx="12" fill="white" stroke="#d1d5db"/>
 <line x1="1120" y1="120" x2="1158" y2="120" stroke="#1f77b4" stroke-width="4"/>
 <circle cx="1139" cy="120" r="5" fill="#1f77b4" stroke="white" stroke-width="1.5"/>
