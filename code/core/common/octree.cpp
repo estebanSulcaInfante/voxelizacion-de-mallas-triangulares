@@ -241,6 +241,124 @@ void rebuildSparseOctreeFromStatePredicate(SparseOctree& octree,
     pruneUnreachableNodes(octree);
 }
 
+template <typename IsSolidAt>
+void rebuildSparseOctreeFromStatePredicateInBounds(SparseOctree& octree,
+                                                   uint32_t d,
+                                                   uint32_t minX, uint32_t minY, uint32_t minZ,
+                                                   uint32_t maxX, uint32_t maxY, uint32_t maxZ,
+                                                   IsSolidAt isSolidAt) {
+    resetSparseOctree(octree);
+
+    octree.height = std::max(1, static_cast<int>(std::log2(d)) - 2);
+    octree.levels.resize(octree.height + 1);
+    octree.nodeMaps.resize(octree.height + 1);
+
+    const uint32_t leafBlocksPerAxis = d / 4u;
+    const uint32_t minBx = minX / 4u;
+    const uint32_t minBy = minY / 4u;
+    const uint32_t minBz = minZ / 4u;
+    const uint32_t maxBx = std::min(leafBlocksPerAxis - 1u, maxX / 4u);
+    const uint32_t maxBy = std::min(leafBlocksPerAxis - 1u, maxY / 4u);
+    const uint32_t maxBz = std::min(leafBlocksPerAxis - 1u, maxZ / 4u);
+
+    auto& leaves = octree.levels[0];
+    auto& leafMap = octree.nodeMaps[0];
+
+    for (uint32_t bz = minBz; bz <= maxBz; ++bz) {
+        for (uint32_t by = minBy; by <= maxBy; ++by) {
+            for (uint32_t bx = minBx; bx <= maxBx; ++bx) {
+                bool allEmpty = true;
+                bool allSolid = true;
+                uint8_t sg[4][4][4] = {};
+
+                for (uint32_t z = 0; z < 4; ++z) {
+                    for (uint32_t y = 0; y < 4; ++y) {
+                        for (uint32_t x = 0; x < 4; ++x) {
+                            const uint32_t gx = bx * 4u + x;
+                            const uint32_t gy = by * 4u + y;
+                            const uint32_t gz = bz * 4u + z;
+                            const bool inBounds = gx >= minX && gx <= maxX &&
+                                                  gy >= minY && gy <= maxY &&
+                                                  gz >= minZ && gz <= maxZ;
+                            const bool solid = inBounds && isSolidAt(gx, gy, gz);
+                            sg[x][y][z] = solid ? 1 : 0;
+                            allEmpty &= !solid;
+                            allSolid &= solid;
+                        }
+                    }
+                }
+
+                if (allEmpty) {
+                    continue;
+                }
+
+                OctreeNode* leaf = new OctreeNode();
+                leaf->mortonCode = encodeMorton3D(bx, by, bz);
+                leaf->level = 0;
+                leaf->inside = allSolid ? 1 : 0;
+                std::memcpy(leaf->SG, sg, sizeof(leaf->SG));
+
+                leaves.push_back(leaf);
+                leafMap[leaf->mortonCode] = leaf;
+            }
+        }
+    }
+
+    for (int level = 1; level <= octree.height; ++level) {
+        struct ParentGroup {
+            std::array<OctreeNode*, 8> children{};
+            uint32_t count = 0;
+            bool allChildrenUniformSolid = true;
+        };
+
+        std::unordered_map<uint32_t, ParentGroup> groups;
+        groups.reserve(octree.levels[level - 1].size() / 2 + 1);
+
+        for (auto* child : octree.levels[level - 1]) {
+            const uint32_t parentCode = parentMorton(child->mortonCode);
+            const uint32_t slot = childIndex(child->mortonCode);
+            auto& group = groups[parentCode];
+            if (!group.children[slot]) {
+                group.children[slot] = child;
+                group.count++;
+            }
+            group.allChildrenUniformSolid &= nodeIsUniformSolid(child);
+        }
+
+        auto& parentLevel = octree.levels[level];
+        auto& parentMap = octree.nodeMaps[level];
+        parentLevel.reserve(groups.size());
+
+        for (auto& entry : groups) {
+            OctreeNode* parent = new OctreeNode();
+            parent->mortonCode = entry.first;
+            parent->level = level;
+
+            const ParentGroup& group = entry.second;
+            const bool compressAsSolid = group.count == 8 && group.allChildrenUniformSolid;
+            if (compressAsSolid) {
+                parent->inside = 1;
+            } else {
+                for (uint32_t slot = 0; slot < 8; ++slot) {
+                    if (group.children[slot]) {
+                        linkNodeToParent(group.children[slot], parent, slot);
+                    }
+                }
+            }
+
+            parentLevel.push_back(parent);
+            parentMap[parent->mortonCode] = parent;
+        }
+    }
+
+    if (octree.levels[octree.height].empty()) {
+        std::cerr << "Advertencia: la grilla de estados no contiene voxeles solidos." << std::endl;
+        return;
+    }
+
+    pruneUnreachableNodes(octree);
+}
+
 } // namespace
 
 // ============================================================================
@@ -469,6 +587,24 @@ void rebuildSparseOctreeFromVoxelStates(SparseOctree& octree,
         });
 }
 
+void rebuildSparseOctreeFromClippedVoxelStates(SparseOctree& octree,
+                                               const std::vector<uint8_t>& states,
+                                               uint32_t d,
+                                               uint32_t minX, uint32_t minY, uint32_t minZ,
+                                               uint32_t maxX, uint32_t maxY, uint32_t maxZ) {
+    const uint32_t nx = maxX - minX + 1u;
+    const uint32_t ny = maxY - minY + 1u;
+    rebuildSparseOctreeFromStatePredicateInBounds(
+        octree,
+        d,
+        minX, minY, minZ,
+        maxX, maxY, maxZ,
+        [&](uint32_t x, uint32_t y, uint32_t z) {
+            const size_t localIndex = (static_cast<size_t>(z - minZ) * ny + (y - minY)) * nx + (x - minX);
+            return states[localIndex] != 2;
+        });
+}
+
 void rebuildSparseOctreeFromAtomicVoxelStates(SparseOctree& octree,
                                              const std::atomic<uint8_t>* states,
                                              uint32_t d) {
@@ -477,5 +613,23 @@ void rebuildSparseOctreeFromAtomicVoxelStates(SparseOctree& octree,
         d,
         [&](uint32_t x, uint32_t y, uint32_t z) {
             return states[gridIndex(d, x, y, z)].load(std::memory_order_relaxed) != 2;
+        });
+}
+
+void rebuildSparseOctreeFromClippedAtomicVoxelStates(SparseOctree& octree,
+                                                    const std::atomic<uint8_t>* states,
+                                                    uint32_t d,
+                                                    uint32_t minX, uint32_t minY, uint32_t minZ,
+                                                    uint32_t maxX, uint32_t maxY, uint32_t maxZ) {
+    const uint32_t nx = maxX - minX + 1u;
+    const uint32_t ny = maxY - minY + 1u;
+    rebuildSparseOctreeFromStatePredicateInBounds(
+        octree,
+        d,
+        minX, minY, minZ,
+        maxX, maxY, maxZ,
+        [&](uint32_t x, uint32_t y, uint32_t z) {
+            const size_t localIndex = (static_cast<size_t>(z - minZ) * ny + (y - minY)) * nx + (x - minX);
+            return states[localIndex].load(std::memory_order_relaxed) != 2;
         });
 }

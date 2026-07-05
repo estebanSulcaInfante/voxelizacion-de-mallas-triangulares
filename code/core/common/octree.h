@@ -99,7 +99,22 @@ void rebuildSparseOctreeFromVoxelStates(SparseOctree& octree,
                                         const std::vector<uint8_t>& states,
                                         uint32_t d);
 
+/// Reconstruye desde una grilla de estados recortada. Las coordenadas min/max
+/// describen la posicion global de esa grilla dentro del dominio d^3.
+void rebuildSparseOctreeFromClippedVoxelStates(SparseOctree& octree,
+                                               const std::vector<uint8_t>& states,
+                                               uint32_t d,
+                                               uint32_t minX, uint32_t minY, uint32_t minZ,
+                                               uint32_t maxX, uint32_t maxY, uint32_t maxZ);
+
 /// Variante para la version OpenMP, donde los estados se almacenan como atomicos.
 void rebuildSparseOctreeFromAtomicVoxelStates(SparseOctree& octree,
                                              const std::atomic<uint8_t>* states,
                                              uint32_t d);
+
+/// Variante atomica de reconstruccion desde una grilla de estados recortada.
+void rebuildSparseOctreeFromClippedAtomicVoxelStates(SparseOctree& octree,
+                                                    const std::atomic<uint8_t>* states,
+                                                    uint32_t d,
+                                                    uint32_t minX, uint32_t minY, uint32_t minZ,
+                                                    uint32_t maxX, uint32_t maxY, uint32_t maxZ);
