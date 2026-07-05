@@ -2,11 +2,54 @@
 #include "common/morton.h"
 #include "common/octree.h"
 
-#include <deque>
+#include <algorithm>
 #include <iostream>
 #include <vector>
 
 namespace {
+
+class IndexQueue {
+public:
+    explicit IndexQueue(size_t initialCapacity) {
+        buffer.resize(std::max<size_t>(initialCapacity, 1));
+    }
+
+    bool empty() const {
+        return count == 0;
+    }
+
+    void push(uint32_t value) {
+        if (count == buffer.size()) {
+            grow();
+        }
+        buffer[tail] = value;
+        tail = (tail + 1) % buffer.size();
+        ++count;
+    }
+
+    uint32_t pop() {
+        const uint32_t value = buffer[head];
+        head = (head + 1) % buffer.size();
+        --count;
+        return value;
+    }
+
+private:
+    void grow() {
+        std::vector<uint32_t> expanded(buffer.size() * 2);
+        for (size_t i = 0; i < count; ++i) {
+            expanded[i] = buffer[(head + i) % buffer.size()];
+        }
+        buffer.swap(expanded);
+        head = 0;
+        tail = count;
+    }
+
+    std::vector<uint32_t> buffer;
+    size_t head = 0;
+    size_t tail = 0;
+    size_t count = 0;
+};
 
 size_t gridIndex(uint32_t d, uint32_t x, uint32_t y, uint32_t z) {
     return (static_cast<size_t>(z) * d + y) * d + x;
@@ -16,14 +59,14 @@ uint32_t voxelResolutionFromHeight(int height) {
     return 1u << (height + 2);
 }
 
-void enqueueExteriorVoxel(std::deque<uint32_t>& queue,
+void enqueueExteriorVoxel(IndexQueue& queue,
                           std::vector<uint8_t>& states,
                           uint32_t d,
                           uint32_t x, uint32_t y, uint32_t z) {
     size_t index = gridIndex(d, x, y, z);
     if (states[index] == 0) {
         states[index] = 2;
-        queue.push_back(static_cast<uint32_t>(index));
+        queue.push(static_cast<uint32_t>(index));
     }
 }
 
@@ -55,7 +98,7 @@ void propagateInsideOutside(SparseOctree& octree) {
         }
     }
 
-    std::deque<uint32_t> queue;
+    IndexQueue queue(static_cast<size_t>(d) * d);
 
     for (uint32_t x = 0; x < d; ++x) {
         for (uint32_t y = 0; y < d; ++y) {
@@ -77,8 +120,7 @@ void propagateInsideOutside(SparseOctree& octree) {
     }
 
     while (!queue.empty()) {
-        uint32_t index = queue.front();
-        queue.pop_front();
+        uint32_t index = queue.pop();
 
         uint32_t gx = index % d;
         uint32_t gy = (index / d) % d;

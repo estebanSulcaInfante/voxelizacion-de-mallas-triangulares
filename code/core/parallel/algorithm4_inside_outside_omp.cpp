@@ -98,16 +98,18 @@ void propagateInsideOutside(SparseOctree& octree) {
 
     std::vector<uint32_t> nextFront;
 
+#ifdef _OPENMP
+    const int maxThreads = omp_get_max_threads();
+#else
+    const int maxThreads = 1;
+#endif
+    std::vector<std::vector<uint32_t>> threadLocalNext(static_cast<size_t>(maxThreads));
+
     // BFS Paralelo por Niveles (Level-Synchronous BFS)
     while (!currentFront.empty()) {
-        std::vector<std::vector<uint32_t>> threadLocalNext;
-
-#ifdef _OPENMP
-        int maxThreads = omp_get_max_threads();
-#else
-        int maxThreads = 1;
-#endif
-        threadLocalNext.resize(maxThreads);
+        for (auto& local : threadLocalNext) {
+            local.clear();
+        }
 
 #ifdef _OPENMP
 #pragma omp parallel
@@ -153,13 +155,13 @@ void propagateInsideOutside(SparseOctree& octree) {
         for (const auto& local : threadLocalNext) {
             totalNew += local.size();
         }
+        nextFront.clear();
         nextFront.reserve(totalNew);
         for (auto& local : threadLocalNext) {
             nextFront.insert(nextFront.end(), local.begin(), local.end());
         }
 
         std::swap(currentFront, nextFront);
-        nextFront.clear();
     }
 
     size_t interiorCount = 0;
