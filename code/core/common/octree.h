@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <unordered_map>
 #include <cstring>
+#include <atomic>
 
 // ============================================================================
 // Estructura del Octree Disperso para voxelización sólida
@@ -91,3 +92,14 @@ bool isVoxelSolid(const SparseOctree& octree, uint32_t d,
 void rebuildSparseOctreeFromDenseGrid(SparseOctree& octree,
                                       const std::vector<uint8_t>& solidGrid,
                                       uint32_t d);
+
+/// Reconstruye un octree disperso desde estados de flood-fill:
+/// 0 = interior, 1 = superficie, 2 = exterior. Los estados 0 y 1 son solidos.
+void rebuildSparseOctreeFromVoxelStates(SparseOctree& octree,
+                                        const std::vector<uint8_t>& states,
+                                        uint32_t d);
+
+/// Variante para la version OpenMP, donde los estados se almacenan como atomicos.
+void rebuildSparseOctreeFromAtomicVoxelStates(SparseOctree& octree,
+                                             const std::atomic<uint8_t>* states,
+                                             uint32_t d);

@@ -164,7 +164,6 @@ void propagateInsideOutside(SparseOctree& octree) {
 
     size_t interiorCount = 0;
     size_t surfaceCount = 0;
-    std::vector<uint8_t> solidGrid(totalVoxels, 0);
 
 #ifdef _OPENMP
 #pragma omp parallel for reduction(+:interiorCount, surfaceCount) schedule(static)
@@ -172,10 +171,8 @@ void propagateInsideOutside(SparseOctree& octree) {
     for (size_t i = 0; i < totalVoxels; ++i) {
         uint8_t s = states[i].load(std::memory_order_relaxed);
         if (s == 1) {
-            solidGrid[i] = 1;
             surfaceCount++;
         } else if (s == 0) {
-            solidGrid[i] = 1;
             interiorCount++;
         }
     }
@@ -183,8 +180,8 @@ void propagateInsideOutside(SparseOctree& octree) {
     std::cout << "    Voxeles de superficie: " << surfaceCount << std::endl;
     std::cout << "    Voxeles interiores rellenados: " << interiorCount << std::endl;
 
-    rebuildSparseOctreeFromDenseGrid(octree, solidGrid, d);
-    std::cout << "    Octree recompreso desde volumen denso" << std::endl;
+    rebuildSparseOctreeFromAtomicVoxelStates(octree, states.get(), d);
+    std::cout << "    Octree recompreso bottom-up desde estados de flood-fill" << std::endl;
 }
 
 } // namespace par

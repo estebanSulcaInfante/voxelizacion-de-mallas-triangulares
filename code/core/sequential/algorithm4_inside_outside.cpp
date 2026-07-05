@@ -94,13 +94,10 @@ void propagateInsideOutside(SparseOctree& octree) {
 
     size_t interiorCount = 0;
     size_t surfaceCount = 0;
-    std::vector<uint8_t> solidGrid(states.size(), 0);
     for (size_t i = 0; i < states.size(); ++i) {
         if (states[i] == 1) {
-            solidGrid[i] = 1;
             surfaceCount++;
         } else if (states[i] == 0) {
-            solidGrid[i] = 1;
             interiorCount++;
         }
     }
@@ -108,8 +105,8 @@ void propagateInsideOutside(SparseOctree& octree) {
     std::cout << "    Voxeles de superficie: " << surfaceCount << std::endl;
     std::cout << "    Voxeles interiores rellenados: " << interiorCount << std::endl;
 
-    rebuildSparseOctreeFromDenseGrid(octree, solidGrid, d);
-    std::cout << "    Octree recompreso desde volumen denso" << std::endl;
+    rebuildSparseOctreeFromVoxelStates(octree, states, d);
+    std::cout << "    Octree recompreso bottom-up desde estados de flood-fill" << std::endl;
 }
 
 } // namespace seq
